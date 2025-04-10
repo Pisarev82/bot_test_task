@@ -1,0 +1,50 @@
+version: '3'
+services:
+  bot:
+    build: .
+    ports:
+      - "8777:8777"
+    environment:
+      BOT_TOKEN: ${BOT_TOKEN}
+      BASE_WEBHOOK_URL: ${WEBHOOK_URL}
+      WEBHOOK_SECRET: ${WEBHOOK_SECRET}
+#      DATABASE_URL: ${DATABASE_URL}
+#    depends_on:
+#      - db
+
+#  db:
+#    image: postgres:14
+#    environment:
+#      POSTGRES_USER:
+#      POSTGRES_PASSWORD:
+#      POSTGRES_DB:
+#    volumes:
+#      - postgres_data:/var/lib/postgresql/data
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.old:/etc/nginx/nginx.old
+      - ./certs:/etc/letsencrypt
+      - ./static:/var/www/html  # Монтируем статические файлы
+    depends_on:
+      - certbot
+
+  certbot:
+    image: certbot/certbot:latest
+    volumes:
+      - ./certs:/etc/letsencrypt
+      - ./static:/var/www/html  # Доступ к статическим файлам для проверки
+    command: >
+      certonly --webroot 
+      --webroot-path=/var/www/html 
+      --email ${EMAIL} 
+      --agree-tos 
+      --no-eff-email 
+      -d ${DOMAIN}
+
+volumes:
+  postgres_data:
