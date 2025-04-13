@@ -6,6 +6,10 @@ name = "pypi"
 [packages]
 aiogram = "*"
 python-dotenv = "*"
+pyngrok = "*"
+sqlalchemy = "*"
+databases = "*"
+asyncpg = "*"
 
 [dev-packages]
 

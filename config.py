@@ -1,9 +1,0 @@
-import os
-
-
-BOT_TOKEN = os.getenv("BOT_TOKEN")
-WEB_SERVER_HOST = os.getenv("WEB_SERVER_HOST")
-WEB_SERVER_PORT = os.getenv("WEB_SERVER_PORT")
-WEBHOOK_PATH = "/webhook"
-WEBHOOK_URL = os.getenv("BASE_WEBHOOK_URL")
-WEBHOOK_SECRET = os.getenv("WEBHOOK_SECRET")
